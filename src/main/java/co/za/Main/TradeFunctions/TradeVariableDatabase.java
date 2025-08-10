@@ -1,19 +1,17 @@
-package za.co.wethinkcode.TradeQuery;
+package co.za.Main.TradeFunctions;
 
 import java.math.BigDecimal;
 import java.sql.*;
 
-public class VariableDatabase {
+public class TradeVariableDatabase {
 
     private Connection connection;
     private TradeFunction tradeFunction;
-    private int numberRows = 4; // Updated to match actual number of variables
-    private int numberColumns = 7; // Number of columns in the table
 
-    private String dataBaseName = "variables.db";
-    private String tableName = "variables";
+    private String dataBaseName = "TradeVariables.db";
+    private String tableName = "TradeVariables";
 
-    public VariableDatabase(boolean basedOnExecution, BigDecimal spread, BigDecimal rateKA, BigDecimal ratePN) {
+    public TradeVariableDatabase(boolean basedOnExecution, BigDecimal spread, BigDecimal rateKA, BigDecimal ratePN) {
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:" + dataBaseName);
             createTable();
