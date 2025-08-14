@@ -1,3 +1,3 @@
-co/za/Main/VariableDatabase.class
-co/za/Main/QueryImplementation.class
-co/za/Main/QueryFunction.class
+za/co/wethinkcode/TradeQuery/TradeFunction.class
+za/co/wethinkcode/TradeQuery/VariableDatabase.class
+za/co/wethinkcode/TradeQuery/QueryImplementation.class

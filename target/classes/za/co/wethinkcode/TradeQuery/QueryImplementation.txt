@@ -1,0 +1,87 @@
+package za.co.wethinkcode.TradeQuery;
+
+import java.sql.*;
+import java.util.Scanner;
+
+public class QueryImplementation {
+
+    static Scanner scanner = new Scanner(System.in);
+    static VariableDatabase db = new VariableDatabase();
+
+    public static void main(String[] args) {
+        // Initialize QueryFunction with some example values
+        int aMin = 5; int aMax = 10;
+        int bMin = 3; int bMax = 8;
+        int cMin = 2; int cMax = 6;
+        
+        try {
+            // Populate table with default values.        
+            db.createTable();
+            System.out.println("Database table created and populated with default values.");
+            
+            // Update query variables based on the values in the database
+            db.updateValue("a", "minimum", aMin);
+            db.updateValue("a", "maximum", aMax);
+            db.updateValue("b", "minimum", bMin);
+            db.updateValue("b", "maximum", bMax);
+            db.updateValue("c", "minimum", cMin);
+            db.updateValue("c", "maximum", cMax);
+            System.out.println("Variables updated with min/max values.");
+
+            // Populate query variables based on the values in the database
+            db.populateQueryVariables();
+            System.out.println("Query variables populated based on the database values.");
+            
+            // Export data to demonstrate the functionality
+            db.exportToSQL();
+            db.exportToCSV();
+
+            // Query the table
+            QueryTable();
+            System.out.println("Query completed.");
+            
+        } catch (SQLException e) {
+            System.out.println("Database error: " + e.getMessage());
+        } finally {
+            // Ensure resources are properly closed
+            try {
+                scanner.close();
+                db.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing database: " + e.getMessage());
+            }
+        }
+    }
+
+    public static void QueryTable() {
+        System.out.print("\nEnter a variable to query (a, b, c): ");
+        String variable = scanner.nextLine().trim().toLowerCase();
+        
+        // Input validation for variable
+        if (!variable.matches("a|b|c")) {
+            System.out.println("Invalid variable. Please enter 'a', 'b', or 'c'.");
+            return;
+        }
+        
+        System.out.print("Enter a column to query (variable, returnmin, returnmax, maximum, minimum): ");
+        String column = scanner.nextLine().trim().toLowerCase();
+        
+        // Input validation for column
+        if (!column.matches("variable|returnmin|returnmax|maximum|minimum")) {
+            System.out.println("Invalid column. Please enter one of: variable, returnmin, returnmax, maximum, minimum");
+            return;
+        }
+        
+        try {
+            if (column.equals("variable")) {
+                // Special case for variable column (returns string)
+                System.out.println("The value of " + variable + " in column " + column + " is: " + variable);
+            } else {
+                int value = db.getValueFromColumn(variable, column);
+                System.out.println("The value of " + variable + " in column " + column + " is: " + value);
+            }
+        } catch (Exception e) {
+            System.out.println("Error querying the database: " + e.getMessage());
+        }
+    }
+}
