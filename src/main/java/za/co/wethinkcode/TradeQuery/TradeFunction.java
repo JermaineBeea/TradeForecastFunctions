@@ -33,6 +33,14 @@ public class TradeFunction {
         return ratio.subtract(BigDecimal.ONE);
     }
 
+    public BigDecimal returnFactorBasedOnAmount(BigDecimal tradeProfit, BigDecimal tradeAmount) {
+        if (tradeAmount.compareTo(BigDecimal.ZERO) == 0) {
+            throw new ArithmeticException("Buy variable cannot be zero");
+        }
+        BigDecimal ratio = tradeProfit.divide(tradeAmount.multiply(rateKA).multiply(ratePN), 10, RoundingMode.HALF_UP);
+        return ratio;
+    }
+
     public BigDecimal returnTradeAmount(BigDecimal tradeProfit, BigDecimal sellVariable, BigDecimal buyVariable){
         if (buyVariable.compareTo(BigDecimal.ZERO) == 0) {
             throw new ArithmeticException("Buy variable cannot be zero");

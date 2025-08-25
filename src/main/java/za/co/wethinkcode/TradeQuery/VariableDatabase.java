@@ -45,6 +45,7 @@ public class VariableDatabase {
             // Populate with default values (0 for maximum and minimum)
             String[] variables = {
                 "tradeprofit",
+                "profitfactor",
                 "tradeamount",
                 "buyvariable",
                 "sellvariable"
@@ -65,6 +66,8 @@ public class VariableDatabase {
         try {
             BigDecimal tradeProfitMax = getValueFromColumn("tradeprofit", "maximum");
             BigDecimal tradeProfitMin = getValueFromColumn("tradeprofit", "minimum");
+            BigDecimal profitFactorMin = getValueFromColumn("profitfactor", "minimum");
+            BigDecimal profitFactorMax = getValueFromColumn("profitfactor", "maximum");
             BigDecimal tradeAmountMax = getValueFromColumn("tradeamount", "maximum");
             BigDecimal tradeAmountMin = getValueFromColumn("tradeamount", "minimum");
             BigDecimal buyVariableMin = getValueFromColumn("buyvariable", "minimum");
@@ -76,11 +79,16 @@ public class VariableDatabase {
                     "UPDATE " + tableName + " SET factormin = ?, factormax = ?, returnmin = ?, returnmax = ? WHERE variable = ?")) {
                 
                 // Calculate profit factors for all calculations
-                BigDecimal profitFactorMin = tradeFunction.returnProfitFactor(sellVariableMin, buyVariableMax);
-                BigDecimal profitFactorMax = tradeFunction.returnProfitFactor(sellVariableMax, buyVariableMin);
+                BigDecimal tradeProfitFactorMin = tradeFunction.returnProfitFactor(sellVariableMin, buyVariableMax);
+                BigDecimal tradeProfitFactorMax = tradeFunction.returnProfitFactor(sellVariableMax, buyVariableMin);
                 BigDecimal tradeProfitMinResult = tradeFunction.returnProfit(tradeAmountMin, sellVariableMin, buyVariableMax);
                 BigDecimal tradeProfitMaxResult = tradeFunction.returnProfit(tradeAmountMax, sellVariableMax, buyVariableMin);
-                updateQueryResult(pstmt, "tradeprofit", profitFactorMin, profitFactorMax, tradeProfitMinResult, tradeProfitMaxResult);
+                updateQueryResult(pstmt, "tradeprofit", tradeProfitFactorMin, tradeProfitFactorMax, tradeProfitMinResult, tradeProfitMaxResult);
+
+                // Calculate profit factors for all calculations
+                BigDecimal factorReturnMin = tradeFunction.returnFactorBasedOnAmount(tradeProfitMin, tradeAmountMax);
+                BigDecimal factorReturnMax = tradeFunction.returnFactorBasedOnAmount(tradeProfitMax, tradeAmountMin);
+                updateQueryResult(pstmt, "profitfactor", profitFactorMin, profitFactorMax, factorReturnMin, factorReturnMax);
 
                 // Update trade amount calculations
                 BigDecimal tradeAmountProfitFactorMin = tradeFunction.returnFactorTradeAmount(profitFactorMin, tradeProfitMax);

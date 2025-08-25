@@ -59,6 +59,21 @@ public class TestFunctions {
     }
 
     @Test
+    public void testReturnFactorBasedOnAmount() {
+        BigDecimal actualFactor = tradeFunction.returnFactorBasedOnAmount(tradeProfit, tradeAmount)
+                .setScale(10, RoundingMode.HALF_UP);
+        
+        BigDecimal diff = tradeProfitFactor.subtract(actualFactor).abs();
+
+        assertTrue(diff.compareTo(TOLERANCE) <= 0,
+            "Expected: " + tradeProfitFactor + ", Actual: " + actualFactor + ", Diff: " + diff);
+
+        logger.info("Expected Factor Based on Amount: " + tradeProfitFactor);
+        logger.info("Actual Factor Based on Amount: " + actualFactor);
+    }
+
+
+    @Test
     public void testReturnTradeAmount() {
         BigDecimal actualTradeAmount = tradeFunction.returnTradeAmount(tradeProfit, sellVariable, buyVariable)
                 .setScale(10, RoundingMode.HALF_UP);
