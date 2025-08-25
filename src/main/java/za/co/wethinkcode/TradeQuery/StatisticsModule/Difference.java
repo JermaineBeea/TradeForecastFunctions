@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
-public class DifferenceMethods {
+public class Difference {
 
     List<BigDecimal> dataList;
 
-    public DifferenceMethods(List<BigDecimal>  dataList) {
+    public Difference(List<BigDecimal>  dataList) {
         if (dataList == null || dataList.isEmpty()) {
         throw new IllegalArgumentException("Data list is empty");
         }
@@ -52,29 +52,25 @@ public class DifferenceMethods {
 
     public List<BigDecimal> positiveDifference(boolean includeZero){
         List<BigDecimal> differenceList = new ArrayList<>();
-        int min = includeZero ? 0 : 1;
+        int min = includeZero ? -1 : 0;
 
         for(int n = 1; n < dataList.size();n++){
             BigDecimal difference = dataList.get(n).subtract(dataList.get(n-1));
-            if(difference.compareTo(BigDecimal.ZERO) > min){
+            if(difference.compareTo(BigDecimal.valueOf(min)) > 0){
                 differenceList.add(difference);
-            } else {
-                differenceList.add(BigDecimal.ZERO);
-            }
+            } 
         }
         return differenceList;
     }
 
     public List<BigDecimal> negativeDifference(boolean includeZero){
         List<BigDecimal> differenceList = new ArrayList<>();
-        int min = includeZero ? 0 : 1;
+        int max = includeZero ? 1 : 0;
 
         for(int n = 1; n < dataList.size();n++){
             BigDecimal difference = dataList.get(n).subtract(dataList.get(n-1));
-            if(difference.compareTo(BigDecimal.ZERO) < min){
-                differenceList.add(difference.abs());
-            } else if (includeZero) {
-                differenceList.add(BigDecimal.ZERO);
+            if(difference.compareTo(BigDecimal.valueOf(max)) < 0){
+                differenceList.add(difference);
             }
         }
         return differenceList;

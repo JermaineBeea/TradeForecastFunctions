@@ -20,6 +20,13 @@ public class CentralTendency {
         this.dataList = dataList;
     }
 
+
+    /*
+     * Returns the variable(s) from the original data list that have the least sum of absolute differences
+     * when compared to all other variables in the list. This can be thought of as the
+     *  variables for which is 'closest' to every other variable.
+     * If multiple variables have the same least sum, all such variables are returned.
+     */
     public List<BigDecimal> leastDifferenceMean(boolean useAbsolute, int power) {
         return new LeastDifference(useAbsolute, power, dataList).variableLeastDifference();
     }

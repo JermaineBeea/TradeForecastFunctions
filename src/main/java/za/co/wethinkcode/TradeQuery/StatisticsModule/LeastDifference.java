@@ -7,7 +7,7 @@ import java.util.List;
 
 public class LeastDifference {
 
-    DifferenceMethods diffMethods;
+    Difference diffMethods;
     List<BigDecimal> dataList;
     boolean useAbsolute = true;
     int power = 1;
@@ -17,7 +17,7 @@ public class LeastDifference {
         throw new IllegalArgumentException("Data list is empty");
         }
         this.dataList = dataList;
-        this.diffMethods = new DifferenceMethods(dataList);
+        this.diffMethods = new Difference(dataList);
         this.useAbsolute = useAbsolute;
         this.power = power;
     }
