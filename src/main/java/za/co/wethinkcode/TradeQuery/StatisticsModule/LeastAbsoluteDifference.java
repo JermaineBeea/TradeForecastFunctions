@@ -18,15 +18,29 @@ public class LeastAbsoluteDifference {
         this.diffMethods = new DifferenceMethods(dataList);
     }
 
+    private List<BigDecimal> comparativeAbsoluteDifference(BigDecimal variable){
+        List<BigDecimal> differenceList = new ArrayList<>();
+        for(int n = 0; n < dataList.size();n++){
+            differenceList.add(dataList.get(n).subtract(variable).abs());
+        }
+        return differenceList;
+    }
+
+    private BigDecimal sumComparitiveAbsDifference(BigDecimal variable){   
+        return comparativeAbsoluteDifference(variable).stream()
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+
     private List<BigDecimal> listComparitiveSums(){
         List<BigDecimal> sumList = new ArrayList<>();
         for(int n = 0; n < dataList.size();n++){
-            sumList.add(diffMethods.sumComparitiveAbsDifference(dataList.get(n)));
+            sumList.add(sumComparitiveAbsDifference(dataList.get(n)));
         }
         return sumList;
     } 
 
-    public List<BigDecimal> indicesLeastComparitiveSums(){
+    private List<BigDecimal> indicesLeastComparitiveSums(){
         List<BigDecimal> sumList = listComparitiveSums();
         BigDecimal min = sumList.stream().min(BigDecimal::compareTo).orElseThrow();
 
