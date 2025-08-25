@@ -2,7 +2,7 @@ package za.co.mainTests;
 
 import java.math.BigDecimal;
 import org.junit.jupiter.api.*;
-import za.co.wethinkcode.TradeQuery.TradeFunction;
+import za.co.wethinkcode.TradeQuery.TradeModules.TradeFunction;
 import java.math.RoundingMode;
 import static org.junit.jupiter.api.Assertions.*;
 

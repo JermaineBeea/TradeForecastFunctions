@@ -16,6 +16,19 @@ public class DifferenceMethods {
         this.dataList = dataList;
     }
 
+    public List<BigDecimal> comparativeAbsoluteDifference(BigDecimal variable){
+        List<BigDecimal> differenceList = new ArrayList<>();
+        for(int n = 0; n < dataList.size();n++){
+            differenceList.add(dataList.get(n).subtract(variable).abs());
+        }
+        return differenceList;
+    }
+
+    public BigDecimal sumComparitiveAbsDifference(BigDecimal variable){   
+        return comparativeAbsoluteDifference(variable).stream()
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
     public List<BigDecimal> difference(){
         List<BigDecimal> differenceList = new ArrayList<>();
         for(int n = 1; n < dataList.size();n++){

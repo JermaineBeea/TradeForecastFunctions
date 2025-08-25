@@ -1,4 +1,4 @@
-package za.co.wethinkcode.TradeQuery;
+package za.co.wethinkcode.TradeQuery.TradeModules;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

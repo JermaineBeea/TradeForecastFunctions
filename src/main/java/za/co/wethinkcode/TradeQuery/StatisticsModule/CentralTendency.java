@@ -9,11 +9,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class Tendency {
+public class CentralTendency {
 
     List<BigDecimal> dataList;
 
-    public Tendency(List<BigDecimal>  dataList) {
+    public CentralTendency(List<BigDecimal>  dataList) {
         if (dataList == null || dataList.isEmpty()) {
             throw new IllegalArgumentException("Data list is empty");
         }
@@ -21,7 +21,6 @@ public class Tendency {
     }
 
     public BigDecimal mean() {
-   
         BigDecimal sum = BigDecimal.ZERO;
         for (BigDecimal value : dataList) {
             sum = sum.add(value);
