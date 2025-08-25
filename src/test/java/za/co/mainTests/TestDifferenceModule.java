@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import za.co.wethinkcode.TradeQuery.StatisticsModule.Difference;
 
 
-public class TestDifference {
+public class TestDifferenceModule {
 
     List <BigDecimal> testData = List.of(
         new BigDecimal("10.0"),

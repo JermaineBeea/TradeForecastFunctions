@@ -16,6 +16,7 @@ public class Difference {
         this.dataList = dataList;
     }
 
+    
     public List<BigDecimal> comparativeDifference(boolean useAbsolute, int power, BigDecimal variable){
         List<BigDecimal> differenceList = new ArrayList<>();
         for(int n = 0; n < dataList.size();n++){

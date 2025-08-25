@@ -9,9 +9,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class TestFunctions {
+public class TestTradeFunctions {
 
-    Logger logger = Logger.getLogger(TestFunctions.class.getName());
+    Logger logger = Logger.getLogger(TestTradeFunctions.class.getName());
 
     {
         logger.setLevel(Level.ALL);
