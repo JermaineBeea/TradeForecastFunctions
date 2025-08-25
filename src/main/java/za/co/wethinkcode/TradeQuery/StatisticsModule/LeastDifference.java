@@ -12,22 +12,16 @@ public class LeastDifference {
     boolean useAbsolute = true;
     int power = 1;
 
-    public LeastDifference(List<BigDecimal>  dataList) {
+    public LeastDifference(boolean useAbsolute, int power, List<BigDecimal>  dataList) {
         if (dataList == null || dataList.isEmpty()) {
         throw new IllegalArgumentException("Data list is empty");
         }
         this.dataList = dataList;
         this.diffMethods = new DifferenceMethods(dataList);
-    }
-
-    public void setPower(int power){
-        if (power < 1) throw new IllegalArgumentException("Power must be at least 1");
+        this.useAbsolute = useAbsolute;
         this.power = power;
     }
 
-    public void setUseAbsolute(boolean useAbsolute){
-        this.useAbsolute = useAbsolute;
-    }
 
     /**
      * Returns the variable(s) from the original data list that have the least sum of absolute differences

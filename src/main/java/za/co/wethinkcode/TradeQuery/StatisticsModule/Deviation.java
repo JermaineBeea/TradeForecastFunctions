@@ -19,7 +19,7 @@ public class Deviation {
         this.dataList = dataList;
     }
 
-    public BigDecimal deviation(boolean useAbsolute, int power, BigDecimal centralTendency){
+    public BigDecimal normalDeviation(boolean useAbsolute, int power, BigDecimal centralTendency){
         List<BigDecimal> sum = diffMethods.comparativeDifference(useAbsolute, power, centralTendency);
        BigDecimal mean = sum.stream().reduce(BigDecimal.ZERO, BigDecimal::add)
                .divide(BigDecimal.valueOf(sum.size()), MathContext.DECIMAL128);
