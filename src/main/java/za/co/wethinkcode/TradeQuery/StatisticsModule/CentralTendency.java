@@ -20,6 +20,10 @@ public class CentralTendency {
         this.dataList = dataList;
     }
 
+    public List<BigDecimal> leastDifferenceMean(boolean useAbsolute) {
+        return new LeastDifference(dataList).variableLeastDifference();
+    }
+
     public BigDecimal mean() {
         BigDecimal sum = BigDecimal.ZERO;
         for (BigDecimal value : dataList) {
