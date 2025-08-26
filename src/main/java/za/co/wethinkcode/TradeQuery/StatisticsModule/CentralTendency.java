@@ -8,30 +8,20 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+public class CentralTendency extends StatisticsBase {
 
-public class CentralTendency {
+    protected final List<BigDecimal> dataList;
 
-    List<BigDecimal> dataList;
-    boolean useAbsolute = true;
-    int power = 1;
-
-    public CentralTendency(List<BigDecimal>  dataList) {
-        if (dataList == null || dataList.isEmpty()) {
-            throw new IllegalArgumentException("Data list is empty");
-        }
+    public CentralTendency(List<BigDecimal> dataList) {
+        super(dataList);
         this.dataList = dataList;
     }
-    
-    public void changeUseAbsolute(boolean useAbsolute){
-        this.useAbsolute = useAbsolute;
+
+    public CentralTendency() {
+        super();
+        this.dataList = getDataList();
     }
 
-    public void changePower(int power){
-        if (power < 1){
-            throw new IllegalArgumentException("Power must be at least 1");
-        }
-        this.power = power;
-    }
 
     public List<BigDecimal> leastDifferenceMean() {
         return new LeastDifference(dataList).variableLeastDifference();
@@ -52,7 +42,8 @@ public class CentralTendency {
         if (sortedList.size() % 2 == 1) {
             return sortedList.get(middle);
         } else {
-            return sortedList.get(middle - 1).add(sortedList.get(middle)).divide(BigDecimal.valueOf(2), RoundingMode.HALF_UP);
+            return sortedList.get(middle - 1).add(sortedList.get(middle))
+                   .divide(BigDecimal.valueOf(2), RoundingMode.HALF_UP);
         }
     }
 
@@ -63,5 +54,4 @@ public class CentralTendency {
         }
         return Collections.max(frequencyMap.entrySet(), Map.Entry.comparingByValue()).getKey();
     }
-
 }
