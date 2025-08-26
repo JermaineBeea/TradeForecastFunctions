@@ -8,6 +8,8 @@ import java.util.function.Function;
 public class Difference {
 
     List<BigDecimal> dataList;
+    boolean useAbsolute = true;
+    int power = 1;
 
     public Difference(List<BigDecimal>  dataList) {
         if (dataList == null || dataList.isEmpty()) {
@@ -16,8 +18,18 @@ public class Difference {
         this.dataList = dataList;
     }
 
-    
-    public List<BigDecimal> comparativeDifference(boolean useAbsolute, int power, BigDecimal variable){
+    public void changeUseAbsolute(boolean useAbsolute){
+        this.useAbsolute = useAbsolute;
+    }
+
+    public void changePower(int power){
+        if (power < 1){
+            throw new IllegalArgumentException("Power must be at least 1");
+        }
+        this.power = power;
+    }
+
+    public List<BigDecimal> comparativeDifference(BigDecimal variable){
         List<BigDecimal> differenceList = new ArrayList<>();
         for(int n = 0; n < dataList.size();n++){
             if(useAbsolute) {
@@ -29,8 +41,8 @@ public class Difference {
         return differenceList;
     }
 
-    public BigDecimal sumComparitiveDifference(boolean useAbsolute, int power,BigDecimal variable){   
-        return comparativeDifference(useAbsolute, power, variable).stream()
+    public BigDecimal sumComparitiveDifference(BigDecimal variable){   
+        return comparativeDifference(variable).stream()
         .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
     

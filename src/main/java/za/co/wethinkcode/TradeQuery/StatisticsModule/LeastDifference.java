@@ -12,23 +12,27 @@ public class LeastDifference {
     boolean useAbsolute = true;
     int power = 1;
 
-    public LeastDifference(boolean useAbsolute, int power, List<BigDecimal>  dataList) {
+    public LeastDifference(List<BigDecimal>  dataList) {
         if (dataList == null || dataList.isEmpty()) {
         throw new IllegalArgumentException("Data list is empty");
         }
         this.dataList = dataList;
         this.diffMethods = new Difference(dataList);
+   
+    }
+
+    public void changeUseAbsolute(boolean useAbsolute){
         this.useAbsolute = useAbsolute;
+    }
+
+    public void changePower(int power){
+        if (power < 1){
+            throw new IllegalArgumentException("Power must be at least 1");
+        }
         this.power = power;
     }
 
 
-    /**
-     * Returns the variable(s) from the original data list that have the least sum of absolute differences
-     * when compared to all other variables in the list. This can be thought of as the variables for which is 'closest' to every other variable.
-     * If multiple variables have the same least sum, all such variables are returned.
-     * @return
-     */
     public List<BigDecimal> variableLeastDifference(){
         List<BigDecimal> indices = indicesLeastComparitiveSums();
         List<BigDecimal> variables = new ArrayList<>();
@@ -43,7 +47,7 @@ public class LeastDifference {
     private List<BigDecimal> listComparitiveSums(){
         List<BigDecimal> listSum = new ArrayList<>();
         for(int n = 0; n < dataList.size();n++){
-            listSum.add(diffMethods.sumComparitiveDifference(useAbsolute, power, dataList.get(n)));
+            listSum.add(diffMethods.sumComparitiveDifference(dataList.get(n)));
         }
         return listSum;
     } 
