@@ -21,28 +21,5 @@ public class Implementation {
         child1.displayVariable();
         child2.displayVariable();
 
-        //Implementation of option 2
-
-        ParentClass parent2 = new ParentClass(30);
-        ChildClass child3 = new ChildClass();
-        ChildClass child4 = new ChildClass();
-
-        parent2.addChild(child3);
-        parent2.addChild(child4);
-
-        parent2.setParentVariable(300);
-        parent2.syncAllChildren();
-
-        child3.displayVariable();
-        child4.displayVariable();
-
-
-        // Implementation of option 3
-        ParentClass parent3 = new ParentClass(50);
-        ParentClass child5 = new ChildClass();// child is added locally in the constructor
-        ParentClass child6 = new ChildClass(); // child is added locally in the constructor
-
-
-
     }
 }
