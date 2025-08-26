@@ -25,9 +25,8 @@ public class ParentClass {
 
     private List<ChildClass> children = new ArrayList<>();
     
-    public ChildClass addChild(ChildClass child) {
+    public void addChild(ChildClass child) {
         children.add(child);
-        return child;
     }
     
     public void syncAllChildren() {
@@ -36,6 +35,17 @@ public class ParentClass {
     
     public List<ChildClass> getAllChildren() {
         return new ArrayList<>(children); // Return copy for safety
+    }
+
+    // Implementation 3 methods
+        private List<ParentClass> children2 = new ArrayList<>();
+
+        public ParentClass() {
+            addChild(this);
+        }
+
+        public void addChild(ParentClass child) {
+        children2.add(child);
     }
 
 }
