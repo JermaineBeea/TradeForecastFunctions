@@ -7,10 +7,6 @@ public class ChildClass extends ParentClass {
         this.localVariable = getParentVariable();
     }
 
-    public ChildClass(int variable) {
-        this.localVariable = variable;
-    }
-
     public Integer getLocalVariable() {
         return localVariable;
     }
@@ -22,7 +18,7 @@ public class ChildClass extends ParentClass {
     public void setLocalToGlobal() {
         this.localVariable = getParentVariable();
     }
-    
+
     public void displayVariable() {
         System.out.println("\nLocal variable: " + localVariable);
         System.out.println("Global variable: " + getParentVariable());

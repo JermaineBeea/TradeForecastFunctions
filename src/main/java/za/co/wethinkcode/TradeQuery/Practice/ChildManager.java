@@ -11,7 +11,6 @@ public class ChildManager {
         return child;
     }
     
-    
     public void syncAllChildren() {
         children.forEach(child -> child.setLocalToGlobal());
     }
