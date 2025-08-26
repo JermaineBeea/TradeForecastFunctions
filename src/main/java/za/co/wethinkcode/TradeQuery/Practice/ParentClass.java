@@ -1,23 +1,21 @@
 package za.co.wethinkcode.TradeQuery.Practice;
 
 public class ParentClass {
-    protected static int variable; // accessible to subclasses
 
-    public ParentClass(int variable) {
-        ParentClass.variable = variable;
+    protected static int variable; 
+
+    public ParentClass(int variableArg) {
+        variable = variableArg;
     }
 
     public ParentClass() {}
 
-    public int getVariable() {
+    public int getParentVariable() {
         return variable;
     }
 
-    public void setVariable(int variable) {
-        ParentClass.variable = variable;
+    public void setParentVariable(int variableArg) {
+        variable = variableArg;
     }
 
-    public void displayVariable() {
-        System.out.println("Parent variable: " + variable);
-    }
 }

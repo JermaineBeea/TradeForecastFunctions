@@ -3,14 +3,19 @@ package za.co.wethinkcode.TradeQuery.Practice;
 public class Implementation {
 
     public static void main(String[] args) {
-        new ParentClass(10);
-        ChildClass child1 = new ChildClass();      
+        ParentClass parent = new ParentClass(10);
+        ChildManager childManager = new ChildManager();
 
+        ChildClass child1 = new ChildClass();
+        ChildClass child2 = new ChildClass(20);
 
-        new ParentClass(9);
+        childManager.addChild(child1);
+        childManager.addChild(child2);
 
-        child1.displayVariable(); // Should print 9
-        
+        parent.setParentVariable(100);
+        childManager.syncAllChildren();
+
+        child1.displayVariable();
+        child2.displayVariable();
     }
-    
 }
