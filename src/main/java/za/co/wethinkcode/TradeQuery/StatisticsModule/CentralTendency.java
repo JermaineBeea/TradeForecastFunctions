@@ -22,9 +22,27 @@ public class CentralTendency extends StatisticsBase {
         this.dataList = getDataList();
     }
 
+    public void setLocalData(List<BigDecimal> dataList) {
+        this.dataList.clear();
+        this.dataList.addAll(dataList);
+    }
 
-    public List<BigDecimal> leastDifferenceMean() {
+    public void resetLocalData() {
+        this.dataList.clear();
+        this.dataList.addAll(getDataList());
+    }
+
+    public List<BigDecimal> leastDifference() {
         return new LeastDeviation(dataList).variableLeastDifference();
+    }
+
+    public BigDecimal meanLeastDifference(){
+        List<BigDecimal> leastDiff = leastDifference();
+        BigDecimal sum = BigDecimal.ZERO;
+        for (BigDecimal value : leastDiff) {
+            sum = sum.add(value);
+        }
+        return sum.divide(BigDecimal.valueOf(leastDiff.size()), RoundingMode.HALF_UP);
     }
 
     public BigDecimal mean() {
