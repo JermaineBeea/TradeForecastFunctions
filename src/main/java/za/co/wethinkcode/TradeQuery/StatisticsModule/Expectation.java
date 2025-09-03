@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class AbsDiffProbability extends StatisticsBase {
+public class Expectation extends StatisticsBase {
 
     protected final List<BigDecimal> dataList;
 
@@ -15,24 +15,24 @@ public class AbsDiffProbability extends StatisticsBase {
     private DevationAndDistribution devationAndDistribution;
 
     private BigDecimal absDiffTendency;
-    private List<BigDecimal> absDifferenceList;
-    private List<BigDecimal> asbDistribution;
+    private List<BigDecimal> absDifferenceList = new ArrayList<>();
+    private List<BigDecimal> asbDistribution = new ArrayList<>();
     private BigDecimal lowerBoundProbability;
     private BigDecimal upperBoundProbability;
-    private List<BigDecimal> lowerBoundValues;
-    private List<BigDecimal> upperBoundValues;
+    private List<BigDecimal> lowerBoundValues = new ArrayList<>();
+    private List<BigDecimal> upperBoundValues = new ArrayList<>();
     private BigDecimal lowerBoundTendency;
     private BigDecimal upperBoundTendency;
 
     private Supplier<BigDecimal> tendencyFunction = centralTendency::meanLeastDifference;
 
-    public AbsDiffProbability(List<BigDecimal> dataList) {
+    public Expectation(List<BigDecimal> dataList) {
         super(dataList);
         this.dataList = dataList;
         subConstructor();
     }
 
-    public AbsDiffProbability() {
+    public Expectation() {
         super();
         this.dataList = getDataList();
         subConstructor();

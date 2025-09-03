@@ -5,8 +5,7 @@ import java.util.List;
 
 public class StatisticsBase {
     protected static List<BigDecimal> dataList;
-    protected boolean useAbsolute = true;
-    protected int power = 1;
+
 
     public StatisticsBase(List<BigDecimal> dataList) {
         validateDataList(dataList);
@@ -33,14 +32,5 @@ public class StatisticsBase {
         }
     }
 
-    public void changeUseAbsolute(boolean useAbsolute) {
-        this.useAbsolute = useAbsolute;
-    }
 
-    public void changePower(int power) {
-        if (power < 1) {
-            throw new IllegalArgumentException("Power must be at least 1");
-        }
-        this.power = power;
-    }
 }

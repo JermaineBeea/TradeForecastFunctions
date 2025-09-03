@@ -8,7 +8,8 @@ import java.util.function.Function;
 public class Difference extends StatisticsBase {
 
     protected final List<BigDecimal> dataList;
-
+    protected boolean useComparitiveAbsolute = true;
+    protected int comparitivePower = 1;
 
     public Difference(List<BigDecimal> dataList) {
         super(dataList);
@@ -20,11 +21,22 @@ public class Difference extends StatisticsBase {
         this.dataList = getDataList();
     }
 
+    public void changeUseAbsolute(boolean useAbsolute) {
+        useComparitiveAbsolute = useAbsolute;
+    }
+
+    public void changePower(int power) {
+        if (power < 1) {
+            throw new IllegalArgumentException("Power must be at least 1");
+        }
+        comparitivePower = power;
+    }
+
     public List<BigDecimal> comparativeDifference(BigDecimal variable) {
         List<BigDecimal> differenceList = new ArrayList<>();
         for (BigDecimal value : dataList) {
-            BigDecimal diff = value.subtract(variable).pow(power);
-            differenceList.add(useAbsolute ? diff.abs() : diff);
+            BigDecimal diff = value.subtract(variable).pow(comparitivePower);
+            differenceList.add(useComparitiveAbsolute ? diff.abs() : diff);
         }
         return differenceList;
     }

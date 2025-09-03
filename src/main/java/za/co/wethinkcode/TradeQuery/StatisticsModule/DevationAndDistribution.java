@@ -10,12 +10,14 @@ public class DevationAndDistribution extends StatisticsBase {
     private final Difference diffMethods;
     private final BigDecimal centralTendency;
     protected final List<BigDecimal> dataList;
+    int power;
 
     public DevationAndDistribution(BigDecimal centralTendency, List<BigDecimal> dataList) {
         super(dataList);
         this.dataList = dataList;
         this.diffMethods = new Difference(dataList);
         this.centralTendency = centralTendency;
+        this.power = diffMethods.comparitivePower;
     }
 
     public DevationAndDistribution(BigDecimal centralTendency) {
