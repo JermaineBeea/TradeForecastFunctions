@@ -3,7 +3,6 @@ package za.co.wethinkcode.TradeQuery.StatisticsModule;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.math.RoundingMode;
 
 public class LeastDeviation extends StatisticsBase {
 

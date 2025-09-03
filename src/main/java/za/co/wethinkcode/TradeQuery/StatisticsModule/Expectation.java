@@ -11,7 +11,7 @@ public class Expectation extends StatisticsBase {
     protected final List<BigDecimal> dataList;
 
     private Difference diffMethods = new Difference();
-    private CentralTendency centralTendency = new CentralTendency();
+    public CentralTendency centralTendency = new CentralTendency();
     private DevationAndDistribution devationAndDistribution;
 
     private BigDecimal absDiffTendency;

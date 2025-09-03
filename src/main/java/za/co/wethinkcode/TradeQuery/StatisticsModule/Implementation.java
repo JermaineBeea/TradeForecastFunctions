@@ -2,6 +2,7 @@ package za.co.wethinkcode.TradeQuery.StatisticsModule;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Implementation {
@@ -10,21 +11,21 @@ public class Implementation {
 
         BigDecimal expectation = BigDecimal.ZERO;
 
-        List<BigDecimal> dataList = List.of(
-        new BigDecimal("2.0"),
-        new BigDecimal("4.0"),
-        new BigDecimal("6.0"),
-        new BigDecimal("8.0"),
-        new BigDecimal("10.0")
-    );
+        List<BigDecimal> dataList = new ArrayList<>(Arrays.asList(
+            new BigDecimal("2.0"),
+            new BigDecimal("4.0"),
+            new BigDecimal("6.0"),
+            new BigDecimal("8.0"),
+            new BigDecimal("10.0")
+        ));
 
-        StatisticsBase statsBase = new StatisticsBase(dataList);
+        new StatisticsBase(dataList);
 
-        Expectation expectationInsta = new Expectation();
+        CentralTendency centralTendency = new CentralTendency();
+        Expectation exp = new Expectation();
 
-        expectation = expectationInsta.expectation();
-
-        System.out.println("Expectation: " + expectation);
+        System.out.println("Data from central tendency is " + centralTendency.getDataList());
+        System.out.println("Data from cent tend initialied in expectation: " + exp.centralTendency.getDataList());
 
     }
 

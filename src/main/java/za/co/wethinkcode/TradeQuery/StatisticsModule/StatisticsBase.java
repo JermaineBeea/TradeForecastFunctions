@@ -17,7 +17,7 @@ public class StatisticsBase {
     }
 
     public List<BigDecimal> getDataList() {
-        return dataList;
+        return StatisticsBase.dataList;
     }
 
     public void setDataList(List<BigDecimal> dataList) {

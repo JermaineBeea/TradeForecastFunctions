@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class CentralTendency extends StatisticsBase {
 
-    protected final List<BigDecimal> dataList;
+    protected  List<BigDecimal> dataList;
 
     public CentralTendency(List<BigDecimal> dataList) {
         super(dataList);
@@ -22,9 +22,9 @@ public class CentralTendency extends StatisticsBase {
         this.dataList = getDataList();
     }
 
-    public void setLocalData(List<BigDecimal> dataList) {
-        this.dataList.clear();
-        this.dataList.addAll(dataList);
+    public void setLocalData(List<BigDecimal> newDataList) {
+        // Create a new mutable list instead of modifying existing one
+        this.dataList = new ArrayList<>(newDataList);
     }
 
     public void resetLocalData() {
