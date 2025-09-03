@@ -24,7 +24,7 @@ public class CentralTendency extends StatisticsBase {
 
 
     public List<BigDecimal> leastDifferenceMean() {
-        return new LeastDifference(dataList).variableLeastDifference();
+        return new LeastDeviation(dataList).variableLeastDifference();
     }
 
     public BigDecimal mean() {

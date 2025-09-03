@@ -7,8 +7,17 @@ import java.util.function.Function;
 
 public class Difference extends StatisticsBase {
 
+    protected final List<BigDecimal> dataList;
+
+
     public Difference(List<BigDecimal> dataList) {
         super(dataList);
+        this.dataList = dataList;
+    }
+
+    public Difference() {
+        super();
+        this.dataList = getDataList();
     }
 
     public List<BigDecimal> comparativeDifference(BigDecimal variable) {

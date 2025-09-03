@@ -9,9 +9,18 @@ import java.util.Arrays;
 public class Deviation extends StatisticsBase {
     private final Difference diffMethods;
     private final BigDecimal centralTendency;
+    protected final List<BigDecimal> dataList;
 
     public Deviation(BigDecimal centralTendency, List<BigDecimal> dataList) {
         super(dataList);
+        this.dataList = dataList;
+        this.diffMethods = new Difference(dataList);
+        this.centralTendency = centralTendency;
+    }
+
+    public Deviation(BigDecimal centralTendency) {
+        super();
+        this.dataList = getDataList();
         this.diffMethods = new Difference(dataList);
         this.centralTendency = centralTendency;
     }

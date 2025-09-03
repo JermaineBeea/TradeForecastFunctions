@@ -4,13 +4,13 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class StatisticsBase {
-    protected List<BigDecimal> dataList;
+    protected static List<BigDecimal> dataList;
     protected boolean useAbsolute = true;
     protected int power = 1;
 
     public StatisticsBase(List<BigDecimal> dataList) {
         validateDataList(dataList);
-        this.dataList = dataList;
+        StatisticsBase.dataList = dataList;
     }
 
     public StatisticsBase() {
@@ -23,8 +23,8 @@ public class StatisticsBase {
 
     public void setDataList(List<BigDecimal> dataList) {
         validateDataList(dataList);
-        this.dataList.clear();
-        this.dataList.addAll(dataList);
+        StatisticsBase.dataList.clear();
+        StatisticsBase.dataList.addAll(dataList);
     }
 
     private void validateDataList(List<BigDecimal> dataList) {
