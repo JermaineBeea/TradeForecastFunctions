@@ -34,7 +34,6 @@ public class LeastDeviation extends StatisticsBase {
     }
 
 
-
     private List<BigDecimal> listComparitiveSums() {
         List<BigDecimal> listSum = new ArrayList<>();
         for (BigDecimal value : dataList) {

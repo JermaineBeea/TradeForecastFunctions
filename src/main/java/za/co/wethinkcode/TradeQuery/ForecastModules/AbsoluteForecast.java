@@ -16,7 +16,6 @@ public class AbsoluteForecast extends ForecastBase {
     DevationAndDistribution deviation = new DevationAndDistribution(getTendency(), getAbsoluteDifference());
 
 
-
     // Default value is the least absolute difference
     Supplier<BigDecimal> tendencyFunction = () -> centralTendency.meanLeastDifference();
 
