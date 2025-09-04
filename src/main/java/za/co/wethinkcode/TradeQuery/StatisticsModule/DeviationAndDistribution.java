@@ -31,7 +31,7 @@ public class DeviationAndDistribution {
     private boolean useMean = true;
 
     {
-        logger.setLevel(Level.ALL);
+        logger.setLevel(Level.OFF);
     }
     public DeviationAndDistribution(CentralTendency tendencyInstance, Supplier<BigDecimal> tendencyFunction, List<BigDecimal> dataList) {
         this.dataList = dataList;
@@ -64,6 +64,10 @@ public class DeviationAndDistribution {
         this.diffMethods.setComparitivePower(power); // Fixed method name based on your Difference class
     }
 
+    public int returnDeviationPower(){
+        return deviationPower;
+    }
+
     public void setUseMean(boolean booleanArg){
         this.useMean = booleanArg;
     }
@@ -89,11 +93,13 @@ public class DeviationAndDistribution {
         System.out.println("Upper bound tendency: " + upperBoundTendency);
         System.out.println("Lower bound probability: " + lowerBoundProbability);
         System.out.println("Upper bound probability: " + upperBoundProbability);
+        System.out.println("Deviation: " + deviation);
     }
 
     // Getters for the boundary values
     public BigDecimal getLowerBoundProbability() {
-        return lowerBoundProbability;
+        return lowerBoundProbability;            
+
     }
 
     public BigDecimal getUpperBoundProbability() {
@@ -119,7 +125,7 @@ public class DeviationAndDistribution {
     private void calculateDeviation() {
         List<BigDecimal> sum = diffMethods.comparativeDifference(distributionTendency);
         BigDecimal mean = sum.stream().reduce(BigDecimal.ZERO, BigDecimal::add)
-                .divide(BigDecimal.valueOf(sum.size()), MathContext.DECIMAL128);
+            .divide(BigDecimal.valueOf(sum.size()), 10, RoundingMode.HALF_UP);
         this.deviation = mean.pow(1 / deviationPower, new MathContext(10, RoundingMode.HALF_UP));
     }
 
@@ -158,8 +164,8 @@ public class DeviationAndDistribution {
         }
         logger.info("Lower count is: " + lowerCount);
         logger.info("Upper count is: " + upperCount);
-        this.lowerBoundProbability = BigDecimal.valueOf(lowerCount).divide(dataListSize, RoundingMode.HALF_UP);
-        this.upperBoundProbability = BigDecimal.valueOf(upperCount).divide(dataListSize, RoundingMode.HALF_UP);
+        this.lowerBoundProbability = BigDecimal.valueOf(lowerCount).divide(dataListSize, 10, RoundingMode.HALF_UP);
+        this.upperBoundProbability = BigDecimal.valueOf(upperCount).divide(dataListSize,10,  RoundingMode.HALF_UP);
         logger.info("Lower probability is: " + lowerBoundProbability);
         logger.info("Upper probability is: " + upperBoundProbability);
         
@@ -173,7 +179,7 @@ public class DeviationAndDistribution {
         } else {
             if (useMean) {
                 this.lowerBoundTendency = distributionTendency.add(distributionMin)
-                    .divide(BigDecimal.valueOf(2), RoundingMode.HALF_UP);
+                    .divide(BigDecimal.valueOf(2), 10, RoundingMode.HALF_UP);
             } else {
                 this.tendencyInstance.setData(lowerBoundValues);
                 this.lowerBoundTendency = tendencyFunction.get();
@@ -185,7 +191,7 @@ public class DeviationAndDistribution {
         } else {
             if (useMean) {
                 this.upperBoundTendency = distributionTendency.add(distributionMax)
-                    .divide(BigDecimal.valueOf(2), RoundingMode.HALF_UP);
+                    .divide(BigDecimal.valueOf(2), 10, RoundingMode.HALF_UP);
             } else {
                 this.tendencyInstance.setData(upperBoundValues);
                 this.upperBoundTendency = tendencyFunction.get();

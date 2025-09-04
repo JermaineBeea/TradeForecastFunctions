@@ -7,23 +7,18 @@ import java.util.List;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Supplier;
 import java.util.logging.Logger;
 
 public class CentralTendency {
     Logger logger = Logger.getLogger(CentralTendency.class.getName());
     
     private List<BigDecimal> dataList;
-    private Supplier<BigDecimal> tendencyFunction = this::meanLeastDifference;
     
     public CentralTendency(List<BigDecimal> dataList) {
         this.dataList = new ArrayList<>(dataList); // Create defensive copy
     }
-    
-    public Supplier<BigDecimal> returnFunction(){
-        return tendencyFunction;
-    }
-    
+
+
     public void setData(List<BigDecimal> newDataList){
         this.dataList = new ArrayList<>(newDataList); // Create defensive copy
     }
@@ -45,7 +40,7 @@ public class CentralTendency {
         for (BigDecimal value : leastDiff) {
             sum = sum.add(value);
         }
-        return sum.divide(BigDecimal.valueOf(leastDiff.size()), RoundingMode.HALF_UP);
+        return sum.divide(BigDecimal.valueOf(leastDiff.size()), 10, RoundingMode.HALF_UP);
     }
     
     public BigDecimal mean() {
@@ -56,7 +51,7 @@ public class CentralTendency {
         for (BigDecimal value : dataList) {
             sum = sum.add(value);
         }
-        return sum.divide(BigDecimal.valueOf(dataList.size()), RoundingMode.HALF_UP);
+        return sum.divide(BigDecimal.valueOf(dataList.size()), 10, RoundingMode.HALF_UP);
     }
     
     public BigDecimal median() {
@@ -70,7 +65,7 @@ public class CentralTendency {
             return sortedList.get(middle);
         } else {
             return sortedList.get(middle - 1).add(sortedList.get(middle))
-                   .divide(BigDecimal.valueOf(2), RoundingMode.HALF_UP);
+                   .divide(BigDecimal.valueOf(2), 10, RoundingMode.HALF_UP);
         }
     }
     

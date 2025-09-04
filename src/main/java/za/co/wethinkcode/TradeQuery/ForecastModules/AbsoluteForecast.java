@@ -2,36 +2,33 @@ package za.co.wethinkcode.TradeQuery.ForecastModules;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.function.Supplier;
 
 import za.co.wethinkcode.TradeQuery.StatisticsModule.CentralTendency;
-import za.co.wethinkcode.TradeQuery.StatisticsModule.Difference;
-import java.util.function.Supplier;
+import za.co.wethinkcode.TradeQuery.StatisticsModule.DeviationAndDistribution;
 
 public class AbsoluteForecast {
 
-    BigDecimal fromValue;
-    Difference diffMethods;
-    CentralTendency centralTendency;
+    private List<BigDecimal> dataList;
+    private BigDecimal fromValue;
+    private int probabilityBias = 0;
+    private int differenceBias = 0;
+    private CentralTendency centralTendency;
+    private DeviationAndDistribution devDistrInsance;
 
-
-    // Default value is the least absolute difference
-    Supplier<BigDecimal> tendencyFunction = () -> centralTendency.meanLeastDifference();
-
-    public AbsoluteForecast(List<BigDecimal> dataList) {
-        this.centralTendency = new CentralTendency(dataList);
-        this.diffMethods = new Difference(dataList);
+    public AbsoluteForecast(CentralTendency tendencyInstance, Supplier<BigDecimal> tendencyFunction, List<BigDecimal> dataList) {
+        this.dataList = dataList;
+        this.fromValue = dataList.getLast();
+        this.centralTendency = tendencyInstance;
+        this.devDistrInsance = new DeviationAndDistribution(tendencyInstance, tendencyFunction, dataList);
     }
 
-    public void setTendencyFunction(Supplier<BigDecimal> tendencyFunction) {
-        this.tendencyFunction = tendencyFunction;
+    public void setProbabilityBias(int probabilityBias) {
+        this.probabilityBias = probabilityBias;
     }
 
-    private List<BigDecimal> getAbsoluteDifference(){
-        return diffMethods.absoluteDifference();
-    }
-
-    private BigDecimal getTendency(){
-        return this.tendencyFunction.get();
+    public void setDifferenceBias(int differenceBias) {
+        this.differenceBias = differenceBias;
     }
 
 }

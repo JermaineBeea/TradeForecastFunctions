@@ -9,7 +9,7 @@ public class Difference{
 
     private List<BigDecimal> dataList;
     private boolean useComparitiveAbsolute = true;
-    private int comparitivePower = 1;
+    private int comparitivePower = 2;
 
     public Difference(List<BigDecimal> dataList) {
         this.dataList = dataList;
