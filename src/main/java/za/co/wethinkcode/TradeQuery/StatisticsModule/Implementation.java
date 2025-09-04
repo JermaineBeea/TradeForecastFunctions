@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class Implementation {
 
@@ -17,10 +18,18 @@ public class Implementation {
             new BigDecimal("10.0")
         ));
 
-        Expectation exp = new Expectation(dataList);
+        CentralTendency centralTendency = new CentralTendency(dataList);
+        Supplier <BigDecimal> tendencyFunction = centralTendency::mean;
+        DeviationAndDistribution devDistr = new DeviationAndDistribution(centralTendency, tendencyFunction, dataList);
+        BigDecimal lowerBoundValue = devDistr.getLowerBoundTendency();
+        BigDecimal upperBoundValue = devDistr.getUpperBoundTendency();
+        BigDecimal lowerBoundProbability = devDistr.getLowerBoundProbability();
+        BigDecimal upperBoundProbability = devDistr.getUpperBoundProbability();
+        Expectation expectation = new Expectation(lowerBoundValue, upperBoundValue, lowerBoundProbability, upperBoundProbability);
 
-        System.out.println("Expectation: " + exp);
-
+        devDistr.displayValues();
+        System.out.println("Distribution is: " + devDistr.distribution());
+        System.out.println("Expectation is: " + expectation.expectation());
     }
 
 }

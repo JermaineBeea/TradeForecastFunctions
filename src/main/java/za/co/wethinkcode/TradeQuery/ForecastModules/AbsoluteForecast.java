@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import za.co.wethinkcode.TradeQuery.StatisticsModule.CentralTendency;
-import za.co.wethinkcode.TradeQuery.StatisticsModule.DevationAndDistribution;
 import za.co.wethinkcode.TradeQuery.StatisticsModule.Difference;
 import java.util.function.Supplier;
 
@@ -13,7 +12,6 @@ public class AbsoluteForecast {
     BigDecimal fromValue;
     Difference diffMethods;
     CentralTendency centralTendency;
-    DevationAndDistribution deviation = new DevationAndDistribution(getTendency(), getAbsoluteDifference());
 
 
     // Default value is the least absolute difference
@@ -36,7 +34,4 @@ public class AbsoluteForecast {
         return this.tendencyFunction.get();
     }
 
-    private List<BigDecimal> differenceDistribution(){
-        return deviation.distribution();
-    }
 }

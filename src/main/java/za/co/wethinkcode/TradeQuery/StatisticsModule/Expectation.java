@@ -1,86 +1,24 @@
 package za.co.wethinkcode.TradeQuery.StatisticsModule;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Supplier;
 
 public class Expectation {
 
-    protected final List<BigDecimal> dataList;
-
-    private Difference diffMethods;
-    public CentralTendency centralTendency;
-    private DevationAndDistribution devationAndDistribution;
-
-    private BigDecimal absDiffTendency;
-    private List<BigDecimal> absDifferenceList = new ArrayList<>();
-    private List<BigDecimal> asbDistribution = new ArrayList<>();
+    private BigDecimal lowerBoundValue;
+    private BigDecimal upperBoundValue;
     private BigDecimal lowerBoundProbability;
     private BigDecimal upperBoundProbability;
-    private List<BigDecimal> lowerBoundValues = new ArrayList<>();
-    private List<BigDecimal> upperBoundValues = new ArrayList<>();
-    private BigDecimal lowerBoundTendency;
-    private BigDecimal upperBoundTendency;
 
-    private Supplier<BigDecimal> tendencyFunction = centralTendency::meanLeastDifference;
-
-    public Expectation(List<BigDecimal> dataList) {
-        this.dataList = dataList;
-        this.centralTendency = new CentralTendency(dataList);
-        this.devationAndDistribution = new DevationAndDistribution(absDiffTendency, dataList);
-        this.absDifferenceList = diffMethods.absoluteDifference();
-        this.absDiffTendency = this.tendencyFunction.get();
-        this.asbDistribution = getDifferenceDistribution();
-        lowerBoundUtility();
-        upperBoundUtility();
-        setBoundaryTendencies();
-    }
-
-
-
-    public void setTendencyFunction(Supplier<BigDecimal> tendencyFunction) {
-        this.tendencyFunction = tendencyFunction;
+    public Expectation(BigDecimal lowerBoundValue, BigDecimal upperBoundValue, BigDecimal lowerBoundProbability, BigDecimal upperBoundProbability) {
+        this.lowerBoundValue = lowerBoundValue;
+        this.upperBoundValue = upperBoundValue;
+        this.lowerBoundProbability = lowerBoundProbability;
+        this.upperBoundProbability = upperBoundProbability;
     }
 
     public BigDecimal expectation(){
-        return lowerBoundTendency.multiply(lowerBoundProbability)
-               .add(upperBoundTendency.multiply(upperBoundProbability));
+        return lowerBoundValue.multiply(lowerBoundProbability)
+               .add(upperBoundValue.multiply(upperBoundProbability));
     }
 
-    private List<BigDecimal> getDifferenceDistribution(){
-        this.devationAndDistribution = new DevationAndDistribution(absDiffTendency, absDifferenceList);
-        return this.devationAndDistribution.distribution();
-    }
-
-    private void setBoundaryTendencies(){
-        centralTendency.setLocalData(lowerBoundValues);
-        this.lowerBoundTendency = tendencyFunction.get();    
-
-        centralTendency.setLocalData(upperBoundValues);
-        this.upperBoundTendency = tendencyFunction.get();
-    }
-
-    private void lowerBoundUtility(){
-        int count = 0;
-        for (BigDecimal value : absDifferenceList) {
-            if ((value.compareTo(asbDistribution.get(0)) > 0) && (value.compareTo(asbDistribution.get(1)) < 0)) {
-                count++;
-                this.lowerBoundValues.add(value);
-            }
-        }
-        this.lowerBoundProbability = BigDecimal.valueOf(count).divide(BigDecimal.valueOf(asbDistribution.size()), RoundingMode.HALF_UP);
-    }
-
-    private void upperBoundUtility(){
-        int count = 0;
-        for (BigDecimal value : absDifferenceList) {
-            if ((value.compareTo(asbDistribution.get(1)) > 0) && (value.compareTo(asbDistribution.get(2)) < 0)) {
-                count++;
-                this.upperBoundValues.add(value);
-            }
-        }
-        this.upperBoundProbability = BigDecimal.valueOf(count).divide(BigDecimal.valueOf(asbDistribution.size()), RoundingMode.HALF_UP);
-    }
 }

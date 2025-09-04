@@ -7,24 +7,28 @@ import java.util.function.Function;
 
 public class Difference{
 
-    protected final List<BigDecimal> dataList;
-    protected boolean useComparitiveAbsolute = true;
-    protected int comparitivePower = 1;
+    private List<BigDecimal> dataList;
+    private boolean useComparitiveAbsolute = true;
+    private int comparitivePower = 1;
 
     public Difference(List<BigDecimal> dataList) {
         this.dataList = dataList;
     }
 
 
-    public void changeUseAbsolute(boolean useAbsolute) {
+    public void setUseAbsolute(boolean useAbsolute) {
         useComparitiveAbsolute = useAbsolute;
     }
 
-    public void changePower(int power) {
+    public void setComparitivePower(int power) {
         if (power < 1) {
             throw new IllegalArgumentException("Power must be at least 1");
         }
         comparitivePower = power;
+    }
+
+    public int returnComparitivePower(){
+        return comparitivePower;
     }
 
     public List<BigDecimal> comparativeDifference(BigDecimal variable) {
