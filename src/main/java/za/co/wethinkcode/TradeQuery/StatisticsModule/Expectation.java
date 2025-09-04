@@ -6,12 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class Expectation extends StatisticsBase {
+public class Expectation {
 
     protected final List<BigDecimal> dataList;
 
-    private Difference diffMethods = new Difference();
-    public CentralTendency centralTendency = new CentralTendency();
+    private Difference diffMethods;
+    public CentralTendency centralTendency;
     private DevationAndDistribution devationAndDistribution;
 
     private BigDecimal absDiffTendency;
@@ -27,18 +27,9 @@ public class Expectation extends StatisticsBase {
     private Supplier<BigDecimal> tendencyFunction = centralTendency::meanLeastDifference;
 
     public Expectation(List<BigDecimal> dataList) {
-        super(dataList);
         this.dataList = dataList;
-        subConstructor();
-    }
-
-    public Expectation() {
-        super();
-        this.dataList = getDataList();
-        subConstructor();
-    }
-
-    public void subConstructor(){
+        this.centralTendency = new CentralTendency(dataList);
+        this.devationAndDistribution = new DevationAndDistribution(absDiffTendency, dataList);
         this.absDifferenceList = diffMethods.absoluteDifference();
         this.absDiffTendency = this.tendencyFunction.get();
         this.asbDistribution = getDifferenceDistribution();
@@ -46,6 +37,8 @@ public class Expectation extends StatisticsBase {
         upperBoundUtility();
         setBoundaryTendencies();
     }
+
+
 
     public void setTendencyFunction(Supplier<BigDecimal> tendencyFunction) {
         this.tendencyFunction = tendencyFunction;
@@ -67,9 +60,6 @@ public class Expectation extends StatisticsBase {
 
         centralTendency.setLocalData(upperBoundValues);
         this.upperBoundTendency = tendencyFunction.get();
-
-        // Reset central Tendency class data
-        centralTendency.resetLocalData();
     }
 
     private void lowerBoundUtility(){

@@ -5,21 +5,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
-public class Difference extends StatisticsBase {
+public class Difference{
 
     protected final List<BigDecimal> dataList;
     protected boolean useComparitiveAbsolute = true;
     protected int comparitivePower = 1;
 
     public Difference(List<BigDecimal> dataList) {
-        super(dataList);
         this.dataList = dataList;
     }
 
-    public Difference() {
-        super();
-        this.dataList = getDataList();
-    }
 
     public void changeUseAbsolute(boolean useAbsolute) {
         useComparitiveAbsolute = useAbsolute;

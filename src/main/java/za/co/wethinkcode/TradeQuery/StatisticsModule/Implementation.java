@@ -9,8 +9,6 @@ public class Implementation {
 
     public static void main(String[] args) {
 
-        BigDecimal expectation = BigDecimal.ZERO;
-
         List<BigDecimal> dataList = new ArrayList<>(Arrays.asList(
             new BigDecimal("2.0"),
             new BigDecimal("4.0"),
@@ -19,13 +17,9 @@ public class Implementation {
             new BigDecimal("10.0")
         ));
 
-        new StatisticsBase(dataList);
+        Expectation exp = new Expectation(dataList);
 
-        CentralTendency centralTendency = new CentralTendency();
-        Expectation exp = new Expectation();
-
-        System.out.println("Data from central tendency is " + centralTendency.getDataList());
-        System.out.println("Data from cent tend initialied in expectation: " + exp.centralTendency.getDataList());
+        System.out.println("Expectation: " + exp);
 
     }
 

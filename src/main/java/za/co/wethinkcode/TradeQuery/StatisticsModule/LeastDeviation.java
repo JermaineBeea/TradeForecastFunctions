@@ -4,23 +4,17 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LeastDeviation extends StatisticsBase {
+public class LeastDeviation {
 
     private final Difference diffMethods;
     protected final List<BigDecimal> dataList;
 
 
     public LeastDeviation(List<BigDecimal> dataList) {
-        super(dataList);
         this.diffMethods = new Difference(dataList);
         this.dataList = dataList;
     }
 
-    public LeastDeviation() {
-        super();
-        this.dataList = getDataList();
-        this.diffMethods = new Difference(dataList);
-    }
 
     public List<BigDecimal> variableLeastDifference() {
         List<BigDecimal> indices = indicesLeastComparitiveSums();

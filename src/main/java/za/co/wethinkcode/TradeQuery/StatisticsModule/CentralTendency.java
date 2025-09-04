@@ -8,18 +8,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CentralTendency extends StatisticsBase {
+public class CentralTendency{
 
     protected  List<BigDecimal> dataList;
 
     public CentralTendency(List<BigDecimal> dataList) {
-        super(dataList);
         this.dataList = dataList;
-    }
-
-    public CentralTendency() {
-        super();
-        this.dataList = getDataList();
     }
 
     public void setLocalData(List<BigDecimal> newDataList) {
@@ -27,10 +21,6 @@ public class CentralTendency extends StatisticsBase {
         this.dataList = new ArrayList<>(newDataList);
     }
 
-    public void resetLocalData() {
-        this.dataList.clear();
-        this.dataList.addAll(getDataList());
-    }
 
     public List<BigDecimal> leastDifference() {
         return new LeastDeviation(dataList).variableLeastDifference();

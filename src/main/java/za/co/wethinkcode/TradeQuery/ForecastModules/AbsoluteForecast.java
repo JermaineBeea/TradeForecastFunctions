@@ -8,11 +8,11 @@ import za.co.wethinkcode.TradeQuery.StatisticsModule.DevationAndDistribution;
 import za.co.wethinkcode.TradeQuery.StatisticsModule.Difference;
 import java.util.function.Supplier;
 
-public class AbsoluteForecast extends ForecastBase {
+public class AbsoluteForecast {
 
     BigDecimal fromValue;
-    Difference diffMethods = new Difference();
-    CentralTendency centralTendency = new CentralTendency();
+    Difference diffMethods;
+    CentralTendency centralTendency;
     DevationAndDistribution deviation = new DevationAndDistribution(getTendency(), getAbsoluteDifference());
 
 
@@ -20,7 +20,8 @@ public class AbsoluteForecast extends ForecastBase {
     Supplier<BigDecimal> tendencyFunction = () -> centralTendency.meanLeastDifference();
 
     public AbsoluteForecast(List<BigDecimal> dataList) {
-        super(dataList);
+        this.centralTendency = new CentralTendency(dataList);
+        this.diffMethods = new Difference(dataList);
     }
 
     public void setTendencyFunction(Supplier<BigDecimal> tendencyFunction) {
