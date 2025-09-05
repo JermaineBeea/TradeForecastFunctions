@@ -27,9 +27,10 @@ public class Implementation {
         //Implementation2
         CentralTendency tendencyInstance = new CentralTendency();
         ForecastBase forecast = new ForecastBase(tendencyInstance, tendencyInstance :: meanLeastDifference, dataList);
-        List<BigDecimal> forecastDistribution = forecast.absoluteForecastDistribution();
-        System.out.println("Distribution is: " + forecastDistribution);
-
+        List<BigDecimal> forecastDistribution1 = forecast.absoluteForecastDistribution();
+        List<BigDecimal> forecastDistribution2 = forecast.absoluteForecastDistribution2();
+        System.out.println("Distribution for implementation 1 is: " + forecastDistribution1);
+        System.out.println("\nDistribution for implementation 2 is: " + forecastDistribution2);
         System.out.println();
         implementation1();
     }
