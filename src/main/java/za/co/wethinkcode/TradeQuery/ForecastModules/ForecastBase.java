@@ -35,17 +35,19 @@ public class ForecastBase {
 
     
     public ForecastBase(CentralTendency tendencyInstance, Supplier<BigDecimal> tendencyFunction, List<BigDecimal> dataList) {
+        this.fromValue = dataList.getLast();
         this.differenceInstance = new Difference(dataList);
         differenceInstance.setIncludeZero(false);
+        this.differenceData = differenceInstance.difference();
         this.absDifferenceData = differenceInstance.absoluteDifference();
         this.posDifferenceData = differenceInstance.positiveDifference();
         this.negDifferenceData = differenceInstance.negativeDifference();
         tendencyInstance.setData(absDifferenceData);
         this.absDeviationDistrInstance = new DeviationAndDistribution(tendencyInstance, tendencyFunction, absDifferenceData);
-        tendencyInstance.setData(posDifferenceData);
-        this.posDeviationDistrInstance = new DeviationAndDistribution(tendencyInstance, tendencyFunction, posDifferenceData);
-        tendencyInstance.setData(negDifferenceData);
-        this.negDeviationDistrInstance = new DeviationAndDistribution(tendencyInstance, tendencyFunction, negDifferenceData);
+        // tendencyInstance.setData(posDifferenceData);
+        // this.posDeviationDistrInstance = new DeviationAndDistribution(tendencyInstance, tendencyFunction, posDifferenceData);
+        // tendencyInstance.setData(negDifferenceData);
+        // this.negDeviationDistrInstance = new DeviationAndDistribution(tendencyInstance, tendencyFunction, negDifferenceData);
         calculateProbailities();
         biasProbability();
     }
@@ -53,6 +55,10 @@ public class ForecastBase {
     public void setProbabilityBias(int biasArgument){
         this.probailityBias = biasArgument;
         biasProbability();
+    }
+
+    public void setFromValue(BigDecimal fromArg){
+        this.fromValue = fromArg;
     }
 
     public CentralTendency returnTendencyInstance(){

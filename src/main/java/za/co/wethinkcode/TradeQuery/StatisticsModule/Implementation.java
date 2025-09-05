@@ -27,6 +27,9 @@ public class Implementation {
         ForecastBase forecast = new ForecastBase(tendencyInstance, tendencyInstance :: meanLeastDifference, dataList);
         List<BigDecimal> forecastDistribution = forecast.absoluteForecastDistribution();
         System.out.println("Distribution is: " + forecastDistribution);
+
+        System.out.println();
+        implementation1();
     }
 
 
