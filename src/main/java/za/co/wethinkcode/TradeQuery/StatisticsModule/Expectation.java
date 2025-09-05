@@ -16,6 +16,13 @@ public class Expectation {
         this.upperBoundProbability = upperBoundProbability;
     }
 
+    public Expectation(DeviationAndDistribution deviationAndDistributionInstance){
+        this.lowerBoundValue = deviationAndDistributionInstance.getLowerBoundTendency();
+        this.upperBoundValue = deviationAndDistributionInstance.getUpperBoundTendency();
+        this.lowerBoundProbability = deviationAndDistributionInstance.getLowerBoundProbability();
+        this.upperBoundProbability = deviationAndDistributionInstance.getUpperBoundProbability();
+    }
+
     public BigDecimal expectation(){
         return lowerBoundValue.multiply(lowerBoundProbability)
                .add(upperBoundValue.multiply(upperBoundProbability));

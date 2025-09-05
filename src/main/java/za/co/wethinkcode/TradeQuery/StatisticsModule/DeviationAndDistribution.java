@@ -35,6 +35,15 @@ public class DeviationAndDistribution {
     }
     public DeviationAndDistribution(CentralTendency tendencyInstance, Supplier<BigDecimal> tendencyFunction, List<BigDecimal> dataList) {
         this.dataList = dataList;
+       subConstructor(tendencyInstance, tendencyFunction);
+    }
+
+    public DeviationAndDistribution(CentralTendency tendencyInstance, Supplier<BigDecimal> tendencyFunction) {
+       subConstructor(tendencyInstance, tendencyFunction);
+    }
+
+
+    public void subConstructor(CentralTendency tendencyInstance, Supplier<BigDecimal> tendencyFunction){
         this.tendencyInstance = tendencyInstance;
         this.tendencyFunction = tendencyFunction;
         this.dataListSize = BigDecimal.valueOf(dataList.size());
@@ -72,6 +81,11 @@ public class DeviationAndDistribution {
         this.useMean = booleanArg;
     }
 
+ 
+    public void setData(List<BigDecimal> newDataList){
+        this.dataList = new ArrayList<>(newDataList); // Create defensive copy
+    }
+
     public void setTendencyFunction(Supplier<BigDecimal> tendencyFunction){
         this.tendencyFunction = tendencyFunction;
     }
@@ -104,6 +118,10 @@ public class DeviationAndDistribution {
 
     public BigDecimal getUpperBoundProbability() {
         return upperBoundProbability;
+    }
+
+    public BigDecimal getDistributionTendency(){
+        return distributionTendency;
     }
 
     public BigDecimal getLowerBoundTendency() {

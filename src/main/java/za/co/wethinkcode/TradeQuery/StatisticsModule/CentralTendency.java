@@ -18,6 +18,10 @@ public class CentralTendency {
         this.dataList = new ArrayList<>(dataList); // Create defensive copy
     }
 
+    public CentralTendency(){
+        
+    }
+
 
     public void setData(List<BigDecimal> newDataList){
         this.dataList = new ArrayList<>(newDataList); // Create defensive copy

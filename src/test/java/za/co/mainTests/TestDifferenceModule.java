@@ -52,14 +52,16 @@ public class TestDifferenceModule {
 
     @Test
     public void testPositiveDifferenceFunction(){
-        List<BigDecimal> result = diff.positiveDifference(true);
+        diff.setIncludeZero(true);
+        List<BigDecimal> result = diff.positiveDifference();
         List<BigDecimal> expected = List.of(
             new BigDecimal("2.0"),
             new BigDecimal("0.0"),
             new BigDecimal("2.0")
         );
 
-        List<BigDecimal> result2 = diff.positiveDifference(false);
+        diff.setIncludeZero(false);
+        List<BigDecimal> result2 = diff.positiveDifference();
         List<BigDecimal> expected2 = List.of(
             new BigDecimal("2.0"),
             new BigDecimal("2.0")
@@ -71,14 +73,16 @@ public class TestDifferenceModule {
 
     @Test
     public void testNegativeDifferenceFunction(){
-        List<BigDecimal> result = diff.negativeDifference(true);
+        diff.setIncludeZero(true);
+        List<BigDecimal> result = diff.negativeDifference();
         List<BigDecimal> expected = List.of(
             new BigDecimal("0.0"),
             new BigDecimal("-1.0"),
             new BigDecimal("-2.0")
         );
 
-        List<BigDecimal> result2 = diff.negativeDifference(false);
+        diff.setIncludeZero(false);
+        List<BigDecimal> result2 = diff.negativeDifference();
         List<BigDecimal> expected2 = List.of(
             new BigDecimal("-1.0"),
             new BigDecimal("-2.0")

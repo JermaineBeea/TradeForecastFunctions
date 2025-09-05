@@ -9,15 +9,19 @@ public class Difference{
 
     private List<BigDecimal> dataList;
     private boolean useComparitiveAbsolute = true;
+    private boolean includeZero = false;
     private int comparitivePower = 2;
 
     public Difference(List<BigDecimal> dataList) {
         this.dataList = dataList;
     }
 
-
     public void setUseAbsolute(boolean useAbsolute) {
-        useComparitiveAbsolute = useAbsolute;
+        this.useComparitiveAbsolute = useAbsolute;
+    }
+
+    public void setIncludeZero(boolean argument){
+        this.includeZero = argument;
     }
 
     public void setComparitivePower(int power) {
@@ -61,7 +65,7 @@ public class Difference{
         return differenceList;
     }
 
-    public List<BigDecimal> positiveDifference(boolean includeZero) {
+    public List<BigDecimal> positiveDifference() {
         List<BigDecimal> differenceList = new ArrayList<>();
         int min = includeZero ? -1 : 0;
 
@@ -74,7 +78,7 @@ public class Difference{
         return differenceList;
     }
 
-    public List<BigDecimal> negativeDifference(boolean includeZero) {
+    public List<BigDecimal> negativeDifference() {
         List<BigDecimal> differenceList = new ArrayList<>();
         int max = includeZero ? 1 : 0;
 

@@ -6,11 +6,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 
+import za.co.wethinkcode.TradeQuery.ForecastModules.ForecastBase;
+
 public class Implementation {
 
-    public static void main(String[] args) {
-
-        List<BigDecimal> dataList = new ArrayList<>(Arrays.asList(
+    static List<BigDecimal> dataList = new ArrayList<>(Arrays.asList(
             new BigDecimal("1.0"),
             new BigDecimal("2.0"),
             new BigDecimal("3.0"),
@@ -19,12 +19,27 @@ public class Implementation {
             new BigDecimal("5.5"),
             new BigDecimal("6.0"),
             new BigDecimal("6.5")
-        ));
+    ));
 
+
+    public static void main(String[] args) {
+        CentralTendency tendencyInstance = new CentralTendency();
+        ForecastBase forecast = new ForecastBase(tendencyInstance, tendencyInstance :: meanLeastDifference, dataList);
+        List<BigDecimal> forecastDistribution = forecast.absoluteForecastDistribution();
+        System.out.println("Distribution is: " + forecastDistribution);
+    }
+
+
+    static public void implementation1(){
         CentralTendency centralTendency = new CentralTendency(dataList);
+        Difference differenceInstance = new Difference(dataList);
+
+        List<BigDecimal> differenceData = differenceInstance.absoluteDifference();
+
         Supplier <BigDecimal> tendencyFunction = centralTendency::meanLeastDifference;
-        DeviationAndDistribution devDistr = new DeviationAndDistribution(centralTendency, tendencyFunction, dataList);
-        devDistr.setUseMean(false);
+        DeviationAndDistribution devDistr = new DeviationAndDistribution(centralTendency, tendencyFunction, differenceData);
+
+        devDistr.setUseMean(true);
         BigDecimal lowerBoundValue = devDistr.getLowerBoundTendency();
         BigDecimal upperBoundValue = devDistr.getUpperBoundTendency();
         BigDecimal lowerBoundProbability = devDistr.getLowerBoundProbability();
