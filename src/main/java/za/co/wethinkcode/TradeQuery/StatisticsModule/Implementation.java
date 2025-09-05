@@ -14,15 +14,17 @@ public class Implementation {
             new BigDecimal("1.0"),
             new BigDecimal("2.0"),
             new BigDecimal("3.0"),
-            new BigDecimal("4.5"),
+            new BigDecimal("4.0"),
             new BigDecimal("5.0"),
-            new BigDecimal("5.5"),
             new BigDecimal("6.0"),
-            new BigDecimal("6.5")
+            new BigDecimal("7.0"),
+            new BigDecimal("8.0")
     ));
 
 
     public static void main(String[] args) {
+
+        //Implementation2
         CentralTendency tendencyInstance = new CentralTendency();
         ForecastBase forecast = new ForecastBase(tendencyInstance, tendencyInstance :: meanLeastDifference, dataList);
         List<BigDecimal> forecastDistribution = forecast.absoluteForecastDistribution();

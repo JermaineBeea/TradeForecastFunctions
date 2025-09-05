@@ -33,21 +33,21 @@ public class ForecastBase {
     private BigDecimal negativeDiffProbaility;
     private BigDecimal positiveDiffProbability;
 
+    // Function
+    Supplier<BigDecimal> tendencyFunction;
+
     
     public ForecastBase(CentralTendency tendencyInstance, Supplier<BigDecimal> tendencyFunction, List<BigDecimal> dataList) {
         this.fromValue = dataList.getLast();
         this.differenceInstance = new Difference(dataList);
+        this.tendencyFunction = tendencyFunction;
+        this.tendencyInstance = tendencyInstance;
         differenceInstance.setIncludeZero(false);
         this.differenceData = differenceInstance.difference();
         this.absDifferenceData = differenceInstance.absoluteDifference();
         this.posDifferenceData = differenceInstance.positiveDifference();
         this.negDifferenceData = differenceInstance.negativeDifference();
         tendencyInstance.setData(absDifferenceData);
-        this.absDeviationDistrInstance = new DeviationAndDistribution(tendencyInstance, tendencyFunction, absDifferenceData);
-        // tendencyInstance.setData(posDifferenceData);
-        // this.posDeviationDistrInstance = new DeviationAndDistribution(tendencyInstance, tendencyFunction, posDifferenceData);
-        // tendencyInstance.setData(negDifferenceData);
-        // this.negDeviationDistrInstance = new DeviationAndDistribution(tendencyInstance, tendencyFunction, negDifferenceData);
         calculateProbailities();
         biasProbability();
     }
@@ -66,6 +66,7 @@ public class ForecastBase {
     }
 
     public List<BigDecimal> absoluteForecastDistribution(){
+        this.absDeviationDistrInstance = new DeviationAndDistribution(tendencyInstance, tendencyFunction, absDifferenceData);
         BigDecimal absDiffCentralTendency = absDeviationDistrInstance.getDistributionTendency();
         BigDecimal absDiffLowerBoundTendency = absDeviationDistrInstance.getLowerBoundTendency();
         BigDecimal absDiffUpperBoundTendency  = absDeviationDistrInstance.getUpperBoundTendency();
