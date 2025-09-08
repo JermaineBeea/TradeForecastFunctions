@@ -43,7 +43,7 @@ public class DeviationAndDistribution {
     }
 
 
-    public void subConstructor(CentralTendency tendencyInstance, Supplier<BigDecimal> tendencyFunction){
+    private void subConstructor(CentralTendency tendencyInstance, Supplier<BigDecimal> tendencyFunction){
         this.tendencyInstance = tendencyInstance;
         this.tendencyFunction = tendencyFunction;
         this.dataListSize = BigDecimal.valueOf(dataList.size());
@@ -154,7 +154,6 @@ public class DeviationAndDistribution {
 
     private void calculateTendencies(){
         // First, get the main tendency using original data
-        this.tendencyInstance.setData(this.dataList);
         this.distributionTendency = tendencyFunction.get();
         
         // Note: boundary tendencies will be calculated after boundary values are calculateed

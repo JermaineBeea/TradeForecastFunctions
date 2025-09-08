@@ -20,6 +20,7 @@ public class ForecastBase {
     private DeviationAndDistribution posDeviationDistrInstance;
     private DeviationAndDistribution negDeviationDistrInstance;
 
+    // Probaility Bias
     private int probailityBias = 0;
 
     // Data parameters
@@ -65,7 +66,7 @@ public class ForecastBase {
     }
 
     public List<BigDecimal> magnitudeWeightedForecast(){
-        // tendencyInstance.setData(absDifferenceData);
+        tendencyInstance.setData(absDifferenceData);
         this.absDeviationDistrInstance = new DeviationAndDistribution(tendencyInstance, tendencyFunction, absDifferenceData);
         BigDecimal absDiffCentralTendency = absDeviationDistrInstance.getDistributionTendency();
         BigDecimal absDiffLowerBoundTendency = absDeviationDistrInstance.getLowerBoundTendency();
@@ -89,14 +90,14 @@ public class ForecastBase {
         BigDecimal negDistrUpperBoundTendency = BigDecimal.ZERO;
 
         if(posDifferenceData.size() > 0){
-            // tendencyInstance.setData(posDifferenceData);
+            tendencyInstance.setData(posDifferenceData);
             this.posDeviationDistrInstance = new DeviationAndDistribution(tendencyInstance, tendencyFunction, posDifferenceData);
             posDistrLowerBoundTendency = posDeviationDistrInstance.getLowerBoundTendency();
             posDistrCentralTendency = posDeviationDistrInstance.getDistributionTendency();
             posDistrUpperBoundTendency = posDeviationDistrInstance.getUpperBoundTendency();
         }
         if(negDifferenceData.size() > 0){
-            // tendencyInstance.setData(negDifferenceData);
+            tendencyInstance.setData(negDifferenceData);
             this.negDeviationDistrInstance = new DeviationAndDistribution(tendencyInstance, tendencyFunction, negDifferenceData);
             negDistrLowerBoundTendency = negDeviationDistrInstance.getLowerBoundTendency();
             negDistrCentralTendency = negDeviationDistrInstance.getDistributionTendency();
