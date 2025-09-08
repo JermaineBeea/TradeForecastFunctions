@@ -13,12 +13,15 @@ public class Implementation {
     static List<BigDecimal> dataList = new ArrayList<>(Arrays.asList(
             new BigDecimal("1.0"),
             new BigDecimal("2.0"),
+            new BigDecimal("1.5"),
+            new BigDecimal("1.0"),
+            new BigDecimal("1.5"),
+            new BigDecimal("2.0"),
+            new BigDecimal("2.5"),
             new BigDecimal("3.0"),
+            new BigDecimal("3.5"),
             new BigDecimal("4.0"),
-            new BigDecimal("5.0"),
-            new BigDecimal("6.0"),
-            new BigDecimal("7.0"),
-            new BigDecimal("8.0")
+            new BigDecimal("4.5")
     ));
 
 
@@ -27,12 +30,12 @@ public class Implementation {
         //Implementation2
         CentralTendency tendencyInstance = new CentralTendency();
         ForecastBase forecast = new ForecastBase(tendencyInstance, tendencyInstance :: meanLeastDifference, dataList);
-        List<BigDecimal> forecastDistribution1 = forecast.absoluteForecastDistribution();
-        List<BigDecimal> forecastDistribution2 = forecast.absoluteForecastDistribution2();
+        forecast.setProbabilityBias(-1);
+        List<BigDecimal> forecastDistribution1 = forecast.magnitudeWeightedForecast();
+        List<BigDecimal> forecastDistribution2 = forecast.asymmetricTrendForecast();
         System.out.println("Distribution for implementation 1 is: " + forecastDistribution1);
         System.out.println("\nDistribution for implementation 2 is: " + forecastDistribution2);
         System.out.println();
-        implementation1();
     }
 
 

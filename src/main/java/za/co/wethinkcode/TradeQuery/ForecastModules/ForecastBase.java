@@ -30,8 +30,8 @@ public class ForecastBase {
 
     // Value parameters
     private BigDecimal fromValue;
-    private BigDecimal lowerDiffProbability;
-    private BigDecimal upperDiffProbability;
+    private BigDecimal negDiffProbability;
+    private BigDecimal posDiffProbability;
 
     // Function
     Supplier<BigDecimal> tendencyFunction;
@@ -49,12 +49,12 @@ public class ForecastBase {
         this.negDifferenceData = differenceInstance.negativeDifference();
         tendencyInstance.setData(absDifferenceData);
         calculateProbailities();
-        biasProbability();
+        applyBiasToProbability();
     }
 
     public void setProbabilityBias(int biasArgument){
         this.probailityBias = biasArgument;
-        biasProbability();
+        applyBiasToProbability();
     }
 
     public void setFromValue(BigDecimal fromArg){
@@ -65,14 +65,14 @@ public class ForecastBase {
         return tendencyInstance;
     }
 
-    public List<BigDecimal> absoluteForecastDistribution(){
+    public List<BigDecimal> magnitudeWeightedForecast(){
         this.absDeviationDistrInstance = new DeviationAndDistribution(tendencyInstance, tendencyFunction, absDifferenceData);
         BigDecimal absDiffCentralTendency = absDeviationDistrInstance.getDistributionTendency();
         BigDecimal absDiffLowerBoundTendency = absDeviationDistrInstance.getLowerBoundTendency();
         BigDecimal absDiffUpperBoundTendency  = absDeviationDistrInstance.getUpperBoundTendency();
-        BigDecimal lowerBoundDiffExpecation = new Expectation(absDiffLowerBoundTendency.negate(), absDiffLowerBoundTendency, lowerDiffProbability, upperDiffProbability).expectation();
-        BigDecimal centralDiffExpecation = new Expectation(absDiffCentralTendency.negate(), absDiffCentralTendency, lowerDiffProbability, upperDiffProbability).expectation();
-        BigDecimal upperBoundDiffExpecation = new Expectation(absDiffUpperBoundTendency.negate(), absDiffUpperBoundTendency, lowerDiffProbability, upperDiffProbability).expectation();
+        BigDecimal lowerBoundDiffExpecation = new Expectation(absDiffLowerBoundTendency.negate(), absDiffLowerBoundTendency, negDiffProbability, posDiffProbability).expectation();
+        BigDecimal centralDiffExpecation = new Expectation(absDiffCentralTendency.negate(), absDiffCentralTendency, negDiffProbability, posDiffProbability).expectation();
+        BigDecimal upperBoundDiffExpecation = new Expectation(absDiffUpperBoundTendency.negate(), absDiffUpperBoundTendency, negDiffProbability, posDiffProbability).expectation();
         List<BigDecimal> result = new ArrayList<>();
         result.add(fromValue.add(lowerBoundDiffExpecation));
         result.add(fromValue.add(centralDiffExpecation));
@@ -80,16 +80,29 @@ public class ForecastBase {
         return result;
     }
 
-    public List<BigDecimal> absoluteForecastDistribution2(){
-        this.absDeviationDistrInstance = new DeviationAndDistribution(tendencyInstance, tendencyFunction, absDifferenceData);
-        lowerDiffProbability = absDeviationDistrInstance.getLowerBoundProbability();
-        upperDiffProbability = absDeviationDistrInstance.getUpperBoundProbability();
-        BigDecimal absDiffCentralTendency = absDeviationDistrInstance.getDistributionTendency();
-        BigDecimal absDiffLowerBoundTendency = absDeviationDistrInstance.getLowerBoundTendency();
-        BigDecimal absDiffUpperBoundTendency  = absDeviationDistrInstance.getUpperBoundTendency();
-        BigDecimal lowerBoundDiffExpecation = new Expectation(absDiffLowerBoundTendency.negate(), absDiffLowerBoundTendency, lowerDiffProbability, upperDiffProbability).expectation();
-        BigDecimal centralDiffExpecation = new Expectation(absDiffCentralTendency.negate(), absDiffCentralTendency, lowerDiffProbability, upperDiffProbability).expectation();
-        BigDecimal upperBoundDiffExpecation = new Expectation(absDiffUpperBoundTendency.negate(), absDiffUpperBoundTendency, lowerDiffProbability, upperDiffProbability).expectation();
+    public List<BigDecimal> asymmetricTrendForecast(){
+        BigDecimal posDistrLowerBoundTendency = BigDecimal.ZERO;
+        BigDecimal posDistrCentralTendency = BigDecimal.ZERO;
+        BigDecimal posDistrUpperBoundTendency = BigDecimal.ZERO;
+        BigDecimal negDistrLowerBoundTendency = BigDecimal.ZERO;
+        BigDecimal negDistrCentralTendency = BigDecimal.ZERO;
+        BigDecimal negDistrUpperBoundTendency = BigDecimal.ZERO;
+
+        if(posDifferenceData.size() > 0){
+            this.posDeviationDistrInstance = new DeviationAndDistribution(tendencyInstance, tendencyFunction, posDifferenceData);
+            posDistrLowerBoundTendency = posDeviationDistrInstance.getLowerBoundTendency();
+            posDistrCentralTendency = posDeviationDistrInstance.getDistributionTendency();
+            posDistrUpperBoundTendency = posDeviationDistrInstance.getUpperBoundTendency();
+        }
+        if(negDifferenceData.size() > 0){
+            this.negDeviationDistrInstance = new DeviationAndDistribution(tendencyInstance, tendencyFunction, negDifferenceData);
+            negDistrLowerBoundTendency = negDeviationDistrInstance.getLowerBoundTendency();
+            negDistrCentralTendency = negDeviationDistrInstance.getDistributionTendency();
+            negDistrUpperBoundTendency = negDeviationDistrInstance.getUpperBoundTendency();
+        }
+        BigDecimal lowerBoundDiffExpecation = new Expectation(negDistrLowerBoundTendency, posDistrLowerBoundTendency, negDiffProbability, posDiffProbability).expectation();
+        BigDecimal centralDiffExpecation = new Expectation(negDistrCentralTendency, posDistrCentralTendency, negDiffProbability, posDiffProbability).expectation();
+        BigDecimal upperBoundDiffExpecation = new Expectation(negDistrUpperBoundTendency, posDistrUpperBoundTendency, negDiffProbability, posDiffProbability).expectation();
         List<BigDecimal> result = new ArrayList<>();
         result.add(fromValue.add(lowerBoundDiffExpecation));
         result.add(fromValue.add(centralDiffExpecation));
@@ -100,16 +113,16 @@ public class ForecastBase {
 
     private void calculateProbailities(){
         BigDecimal differnceSize = BigDecimal.valueOf(differenceData.size());
-        this.lowerDiffProbability = BigDecimal.valueOf(negDifferenceData.size()).divide(differnceSize, 10, RoundingMode.HALF_UP);
-        this.upperDiffProbability = BigDecimal.valueOf(posDifferenceData.size()).divide(differnceSize, 10, RoundingMode.HALF_UP);
+        this.negDiffProbability = BigDecimal.valueOf(negDifferenceData.size()).divide(differnceSize, 10, RoundingMode.HALF_UP);
+        this.posDiffProbability = BigDecimal.valueOf(posDifferenceData.size()).divide(differnceSize, 10, RoundingMode.HALF_UP);
     }
 
-    private void biasProbability(){
-        boolean comparison = lowerDiffProbability.compareTo(upperDiffProbability) > 0;
+    private void applyBiasToProbability(){
+        boolean comparison = negDiffProbability.compareTo(posDiffProbability) > 0;
         if(!comparison && probailityBias == -1 || comparison && probailityBias == 1){
-            BigDecimal temporary = lowerDiffProbability;
-            lowerDiffProbability = upperDiffProbability;
-            upperDiffProbability = temporary;
+            BigDecimal temporary = negDiffProbability;
+            negDiffProbability = posDiffProbability;
+            posDiffProbability = temporary;
         }
     }
 }
