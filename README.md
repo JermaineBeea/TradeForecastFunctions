@@ -1,5 +1,3 @@
-# SequenceQueryLanguage
-
 A Java-based statistical analysis and forecasting framework for financial time series data, with specialized support for cryptocurrency market analysis.
 
 ## Overview
